@@ -1,0 +1,54 @@
+:root {
+  --deg: -85.5deg;
+}
+
+#slider,
+#range {
+  margin: 0 auto;
+}
+
+#range {
+  transform: translateY(-100%);
+}
+
+#range .rs-range-color {
+  background: conic-gradient(
+    from var(--deg) at 50% 100%,
+    rgb(240, 216, 0) 0deg 5deg,
+    rgb(253, 133, 52) 5deg 14deg,
+    rgb(90, 206, 235) 14deg 23deg,
+    rgb(253, 133, 52) 23deg 32deg,
+    rgb(240, 216, 0) 32deg 50deg
+  );
+}
+
+#range .rs-path-color {
+  background: hsl(0, 0%, 91%);
+}
+
+#slider .rs-handle:before {
+  display: block;
+  content: " ";
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  background: black;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 100%;
+}
+#slider .rs-handle:after {
+  display: block;
+  content: " ";
+  width: 206px;
+  position: absolute;
+  top: -1px;
+  right: 0px;
+  border-top: 3px solid black;
+}
+#slider .rs-range-color {
+  background-color: #4ab0c2;
+}
+#slider .rs-path-color {
+  background-color: #4ab0c2;
+}
