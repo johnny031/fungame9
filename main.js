@@ -125,6 +125,7 @@ $("#confirm").on("click", function () {
 
     if (val >= answer - 15 && val <= answer - 10) {
         score1 = 4
+        red_turn = !red_turn
     } else if ((val >= answer - 20 && val < answer - 15) || (val > answer - 10 && val <= answer - 5)) {
         score1 = 3
     } else if ((val >= answer - 25 && val < answer - 20) || (val > answer - 5 && val <= answer)) {
