@@ -1,5 +1,93 @@
-:root {
-  --deg: -85.5deg;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  --deg: -86deg;
+  --handle-length: 206px;
+}
+
+.topic1,
+.topic2 {
+  font-size: 1.4rem;
+  color: rgb(102, 102, 102);
+}
+
+.board {
+  margin-left: 0.5rem;
+}
+
+.btn_group {
+  margin: 0.5rem 0.5rem 0.8rem 0.5rem;
+}
+
+.btn {
+  border-radius: 50%;
+  font-size: 1.3rem;
+  margin-right: 0.3rem;
+  background-color: rgb(255, 154, 86);
+  color: rgb(250, 250, 250);
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border: none;
+  box-shadow: 2px 4px 1px rgb(241, 115, 31);
+  cursor: pointer;
+}
+
+.change_topic {
+  float: right;
+}
+
+.btn:active {
+  box-shadow: 1px 2px 1px rgb(241, 115, 31);
+}
+
+.btn:disabled {
+  box-shadow: none;
+  background-color: rgb(238, 238, 238);
+  color: rgb(184, 184, 184);
+  font-weight: normal;
+  border: 1px solid rgb(184, 184, 184);
+}
+
+.hint {
+  text-align: center;
+  color: rgb(122, 122, 122);
+  font-weight: normal;
+  margin: 1.4rem 0.5rem 0.9rem 0.5rem;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+}
+
+.fas {
+  font-size: 4rem;
+  transform: scale(1.5, 1);
+  color: rgb(102, 102, 102);
+}
+
+#confirm:disabled {
+  box-shadow: none;
+  background-color: rgb(238, 238, 238);
+  border: 1px solid rgb(184, 184, 184);
+}
+
+#confirm {
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  margin: 3.5em auto;
+  border-radius: 10%;
+  box-shadow: 4px 4px 1px rgb(124, 124, 124);
+  background-color: rgb(209, 209, 209);
+  border: none;
+  cursor: pointer;
+}
+
+#confirm:active {
+  box-shadow: 2px 2px 1px rgb(124, 124, 124);
 }
 
 #slider,
@@ -40,15 +128,90 @@
 #slider .rs-handle:after {
   display: block;
   content: " ";
-  width: 206px;
+  width: var(--handle-length);
   position: absolute;
   top: -1px;
   right: 0px;
   border-top: 3px solid black;
 }
 #slider .rs-range-color {
-  background-color: #4ab0c2;
+  background-color: #65cbdd;
 }
 #slider .rs-path-color {
-  background-color: #4ab0c2;
+  background-color: #65cbdd;
+}
+
+.float {
+  transform: translateY(calc(-1.3 * var(--handle-length)));
+  display: flex;
+  justify-content: space-around;
+}
+
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 1.6rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.1em 0.4rem;
+  font-weight: bold;
+  color: #040296;
+  border: 3px solid #040296;
+  border-radius: 20%;
+  transform: translateX(-50%);
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #040296;
+  color: rgb(243, 243, 243);
+}
+
+@media only screen and (min-width: 576px) {
+  body {
+    margin: 1rem;
+  }
+  .btn {
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+  }
+  .btn_group {
+    margin: 0.5rem 0.5rem 1.6rem 0.5rem;
+  }
+  .board {
+    font-size: 1.5rem;
+  }
+  .hint {
+    font-size: 1.7rem;
+  }
+  .topic1,
+  .topic2 {
+    font-size: 1.9rem;
+  }
+  .container {
+    font-size: 2.2rem;
+  }
+  #confirm {
+    font-size: 1.7rem;
+  }
 }
