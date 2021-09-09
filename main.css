@@ -49,6 +49,7 @@ body {
   color: rgb(184, 184, 184);
   font-weight: normal;
   border: 1px solid rgb(184, 184, 184);
+  cursor: default;
 }
 
 .hint {
@@ -73,6 +74,7 @@ body {
   box-shadow: none;
   background-color: rgb(238, 238, 238);
   border: 1px solid rgb(184, 184, 184);
+  cursor: default;
 }
 
 #confirm {
@@ -213,5 +215,10 @@ body {
   }
   #confirm {
     font-size: 1.7rem;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  body {
+    margin: 2rem 10rem;
   }
 }
