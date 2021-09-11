@@ -29,6 +29,7 @@ body {
 }
 
 .round-div {
+  font-size: 1.3rem;
   line-height: 3rem;
   color: #b40101;
   text-shadow: 1px 1px 1px rgb(255, 255, 255);
@@ -182,7 +183,7 @@ body {
   transform-origin: center;
   width: calc(2 * var(--handle-length) / 0.687);
   height: calc(2 * var(--handle-length) / 0.687);
-  background: repeating-conic-gradient(#ffad50 0% 5%, #ff7231 5% 10%);
+  background: repeating-conic-gradient(#ffad50ef 0% 5%, #ff7231ec 5% 10%);
   transform: translate(-50%, -50%) rotate(0deg);
   z-index: 3;
   border-radius: 50%;
@@ -232,7 +233,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0.2em 0.5rem;
+  padding: 0.2em 0.7rem;
   font-weight: bold;
   color: var(--color);
   border: 3px solid var(--color);
