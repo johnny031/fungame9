@@ -6,16 +6,32 @@ body {
   margin: 0;
   --deg: -86deg;
   --handle-length: 206px;
+  --color: #001ba4; /*#001ba4 #b40101*/
+  --bg-color: #f5e2e2; /*#f5e2e2 #e0e6f3*/
+  background-color: var(--bg-color);
+  overflow-x: hidden;
 }
 
 .topic1,
 .topic2 {
   font-size: 1.4rem;
   color: rgb(102, 102, 102);
+  margin-top: 0;
+}
+
+.board,
+.round-div {
+  margin: 0.5rem;
 }
 
 .board {
-  margin-left: 0.5rem;
+  text-shadow: 1px 1px 1px white;
+}
+
+.round-div {
+  line-height: 3rem;
+  color: #b40101;
+  text-shadow: 1px 1px 1px rgb(255, 255, 255);
 }
 
 .btn_group {
@@ -24,7 +40,7 @@ body {
 
 .btn {
   border-radius: 50%;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   margin-right: 0.3rem;
   background-color: rgb(255, 154, 86);
   color: rgb(250, 250, 250);
@@ -35,8 +51,9 @@ body {
   cursor: pointer;
 }
 
-.change_topic {
+.right {
   float: right;
+  margin: 0;
 }
 
 .btn:active {
@@ -54,14 +71,19 @@ body {
 
 .hint {
   text-align: center;
-  color: rgb(122, 122, 122);
+  color: rgb(97, 97, 97);
   font-weight: normal;
-  margin: 1.4rem 0.5rem 0.9rem 0.5rem;
+  margin: 1rem 0.5rem 1.5rem 0.5rem;
 }
 
 .flex {
   display: flex;
   justify-content: space-around;
+}
+
+.flex-btw {
+  display: flex;
+  justify-content: space-between;
 }
 
 .fas {
@@ -116,6 +138,10 @@ body {
   background: hsl(0, 0%, 91%);
 }
 
+#slider .rs-handle {
+  background-color: transparent;
+}
+
 #slider .rs-handle:before {
   display: block;
   content: " ";
@@ -127,6 +153,7 @@ body {
   bottom: -6px;
   border-radius: 100%;
 }
+
 #slider .rs-handle:after {
   display: block;
   content: " ";
@@ -137,16 +164,46 @@ body {
   border-top: 3px solid black;
 }
 #slider .rs-range-color {
-  background-color: #65cbdd;
+  background-color: transparent;
 }
 #slider .rs-path-color {
-  background-color: #65cbdd;
+  background-color: transparent;
+}
+
+.wheel-container {
+  position: relative;
+}
+
+#spinner {
+  display: none;
+  position: absolute;
+  top: calc(var(--handle-length) / 0.687);
+  left: 50%;
+  transform-origin: center;
+  width: calc(2 * var(--handle-length) / 0.687);
+  height: calc(2 * var(--handle-length) / 0.687);
+  background: repeating-conic-gradient(#ffad50 0% 5%, #ff7231 5% 10%);
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: 3;
+  border-radius: 50%;
+  pointer-events: none;
+}
+#baffle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: calc(var(--handle-length) / 0.687);
+  background-color: var(--bg-color);
+  z-index: 3;
 }
 
 .float {
+  position: relative;
   transform: translateY(calc(-1.3 * var(--handle-length)));
   display: flex;
   justify-content: space-around;
+  z-index: 3;
 }
 
 /* Customize the label (the container) */
@@ -175,17 +232,17 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0.1em 0.4rem;
+  padding: 0.2em 0.5rem;
   font-weight: bold;
-  color: #040296;
-  border: 3px solid #040296;
-  border-radius: 20%;
+  color: var(--color);
+  border: 3px solid var(--color);
+  border-radius: 50%;
   transform: translateX(-50%);
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #040296;
+  background-color: var(--color);
   color: rgb(243, 243, 243);
 }
 
@@ -200,7 +257,8 @@ body {
   .btn_group {
     margin: 0.5rem 0.5rem 1.6rem 0.5rem;
   }
-  .board {
+  .board,
+  .round-div {
     font-size: 1.5rem;
   }
   .hint {

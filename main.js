@@ -1,10 +1,10 @@
 let current_topic = 0
 let locked = false
 let answer
-let red_turn = true
+let red_turn = false
 let slider_width = $(window).width() < 610 ? $(window).width() / 2 - 5 : 300
-let turn = red_turn ? ["紅隊", "黃隊"] : ["黃隊", "紅隊"]
-let message = [`${turn[0]}回合，請出題者轉轉盤`, `轉好後，請${turn[0]}出題者看旋轉最終位置，並出題`, `請${turn[0]}隊員移動指針位置，然後請${turn[1]}隊員選擇左右，再按確定`]
+let turn
+let message
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -18,6 +18,7 @@ function shuffle(a) {
 // 15, 25
 // -104.5, -86
 function rotate() {
+    $("#rotate, #reveal").attr("disabled", true)
     answer = Math.floor(Math.random() * (110 - 15 + 1)) + 15
     let sliderVal = (answer - 25).toString() + "," + answer.toString()
     $("#range").roundSlider("setValue", sliderVal)
@@ -27,14 +28,28 @@ function rotate() {
     } else {
         $("body").get(0).style.setProperty("--deg", "-86deg")
     }
+    $("#spinner").animateRotate(1080, {
+        duration: 2500,
+        easing: "swing",
+        complete: function () {
+            $(".hint").html(message[1])
+            $("#rotate, #reveal").attr("disabled", false)
+        }
+    });
 }
 
-function toggle_slider() {
-    $bgColor = $("#slider .rs-range-color, #slider .rs-path-color")
-    $bgColor.css("background-color") === "rgba(0, 0, 0, 0)" ?
-        $bgColor.css("background-color", "#65cbdd") :
-        $bgColor.css("background-color", "rgba(0, 0, 0, 0)")
-}
+$.fn.animateRotate = function (angle, duration, easing, complete) {
+    var args = $.speed(duration, easing, complete);
+    var step = args.step;
+    return this.each(function (i, e) {
+        args.complete = $.proxy(args.complete, e);
+        args.step = function (now) {
+            $.style(e, 'transform', 'translate(-50%, -50%) rotate(' + now + 'deg)');
+            if (step) return step.apply(e, arguments);
+        };
+        $({ deg: 0 }).animate({ deg: angle }, args);
+    });
+};
 
 function change_topic() {
     $(".topic1").html(topic[current_topic][0])
@@ -44,16 +59,20 @@ function change_topic() {
 
 function reset() {
     red_turn = !red_turn
-    toggle_slider()
     change_topic()
+    $("#spinner").fadeToggle()
+    $(".round-div").css("color", red_turn ? "#b40101" : "#001ba4")
+    $("body").get(0).style.setProperty("--color", red_turn ? "#001ba4" : "#b40101")
+    $("body").get(0).style.setProperty("--bg-color", red_turn ? "#f5e2e2" : "#e0e6f3")
     $("#slider").roundSlider("setValue", "0")
     $("#confirm").html("確定")
     $('input[name="radio"]').prop("checked", false)
     $("#confirm").attr("disabled", true)
-    $("#rotate, #reveal").attr("disabled", false)
-    turn = red_turn ? ["紅隊", "黃隊"] : ["黃隊", "紅隊"]
-    message = [`${turn[0]}回合，請出題者轉轉盤`, `轉好後，請${turn[0]}出題者看旋轉最終位置，並出題`, `請${turn[0]}隊員移動指針位置，然後請${turn[1]}隊員選擇左右，再按確定`]
+    $("#rotate").attr("disabled", false)
+    turn = red_turn ? ["紅隊", "藍隊"] : ["藍隊", "紅隊"]
+    message = [`請${turn[0]}出題者按「轉」來轉轉盤`, `請${turn[0]}出題者<br/>1. 按「開」檢視結果<br/>2. 按「關」闔上擋板`, `1. 請${turn[0]}出題者出題目<br/>2. 請${turn[0]}隊員移動指針<br/>3. 請${turn[1]}隊員選擇左右<br/>4. 按確定`]
     $(".hint").html(message[0])
+    $(".round").html(turn[0])
 }
 
 $("#slider").roundSlider({
@@ -62,9 +81,10 @@ $("#slider").roundSlider({
     showTooltip: false,
     width: slider_width,
     value: 0,
-    handleSize: 0,
+    handleSize: "170,30",
     handleShape: "square",
     circleShape: "half-top",
+    readOnly: true
 })
 
 $("#range").roundSlider({
@@ -79,9 +99,8 @@ $("#range").roundSlider({
 })
 
 // Initialize
-rotate()
 shuffle(topic)
-change_topic()
+reset()
 $("body").get(0).style.setProperty("--handle-length", `${slider_width * 0.687}px`)
 
 $(window).resize(function () {
@@ -93,18 +112,21 @@ $(window).resize(function () {
     $("body").get(0).style.setProperty("--handle-length", `${slider_width * 0.687}px`)
 })
 
-$("#rotate").on("click", function () {
-    $(".hint").html(message[1])
-})
-
 $("#reveal").on("click", function () {
+    $(this).attr("disabled", true)
     $("#rotate").attr("disabled", true)
     if (locked) {
-        $("#reveal").attr("disabled", true)
+        $(this).html("開")
         $("#confirm").attr("disabled", false)
         $(".hint").html(message[2])
+        $("#slider").roundSlider("option", "readOnly", false)
+    } else {
+        setTimeout(() => {
+            $(this).attr("disabled", false)
+            $(this).html("關")
+        }, 500)
     }
-    toggle_slider()
+    $("#spinner").fadeToggle()
     locked = !locked
 })
 
@@ -117,6 +139,8 @@ $("#confirm").on("click", function () {
         alert(`請${turn[1]}選擇左右`)
         return false
     }
+    $("#slider").roundSlider("option", "readOnly", true)
+
     let val = $("#slider").roundSlider("getValue")
     let is_left = $("input[name=radio]:checked").val() === "left"
     let round = red_turn ? ["red", "yellow"] : ["yellow", "red"]
@@ -140,6 +164,10 @@ $("#confirm").on("click", function () {
     $(`.${round[1]}`).html(parseInt($(`.${round[1]}`).html()) + score2)
     $(".hint").html(`${turn[0]}得 ${score1} 分，${turn[1]}得 ${score2} 分`)
 
-    toggle_slider()
+    $("#spinner").fadeToggle()
     $(this).html("下一局")
+})
+
+$(".flex-btw").on("click", function () {
+    $(".hint").slideToggle()
 })

@@ -15,14 +15,17 @@
 <body>
     <div class="btn_group">
         <button class="btn" id="rotate" onclick="rotate()">轉</button>
-        <button class="btn" id="reveal">看</button>
-        <button class="btn change_topic" onclick="change_topic()">換</button>
+        <button class="btn" id="reveal" disabled>開</button>
+        <button class="btn right" onclick="change_topic()">換</button>
     </div>
-    <div class="board">
-        <div>紅隊：<span class="red">0</span> 分</div>
-        <div>黃隊：<span class="yellow">1</span> 分</div>
+    <div class="flex-btw">
+        <div class="board">
+            <div>紅隊：<span class="red">0</span> 分</div>
+            <div>藍隊：<span class="yellow">1</span> 分</div>
+        </div>
+        <div class="round-div"><span class="round">紅隊</span>回合</div>
     </div>
-    <h3 class="hint">紅隊回合，請出題者轉轉盤</h3>
+    <h3 class="hint">請紅隊出題者按「轉」旋轉轉盤</h3>
     <div class="flex">
         <i class="fas fa-long-arrow-alt-left"></i>
         <i class="fas fa-long-arrow-alt-right"></i>
@@ -31,9 +34,11 @@
         <h1 class="topic1"></h1>
         <h1 class="topic2"></h1>
     </div>
-    <div>
+    <div class="wheel-container">
         <div id="slider"></div>
         <div id="range"></div>
+        <div id="spinner"></div>
+        <div id="baffle"></div>
     </div>
 
     <div class="float">
@@ -48,6 +53,7 @@
         </label>
     </div>
     <button class="float" id="confirm" disabled>確定</button>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/round-slider@1.6.1/dist/roundslider.min.js"></script>
     <script src="topic.js"></script>
