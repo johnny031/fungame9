@@ -144,25 +144,31 @@ $("#confirm").on("click", function () {
     let val = $("#slider").roundSlider("getValue")
     let is_left = $("input[name=radio]:checked").val() === "left"
     let round = red_turn ? ["red", "yellow"] : ["yellow", "red"]
+    let score0 = 0
     let score1 = 0
-    let score2 = 0
 
     if (val >= answer - 15 && val <= answer - 10) {
-        score1 = 4
-        red_turn = !red_turn
+        score0 = 4
     } else if ((val >= answer - 20 && val < answer - 15) || (val > answer - 10 && val <= answer - 5)) {
-        score1 = 3
+        score0 = 3
     } else if ((val >= answer - 25 && val < answer - 20) || (val > answer - 5 && val <= answer)) {
-        score1 = 2
+        score0 = 2
     }
 
     if ((is_left && val > answer - 10) || (!is_left && val < answer - 15)) {
-        score2 = 1
+        score1 = 1
     }
+    let team0_sum = parseInt($(`.${round[0]}`).html()) + score0
+    let team1_sum = parseInt($(`.${round[1]}`).html()) + score1
 
-    $(`.${round[0]}`).html(parseInt($(`.${round[0]}`).html()) + score1)
-    $(`.${round[1]}`).html(parseInt($(`.${round[1]}`).html()) + score2)
-    $(".hint").html(`${turn[0]}得 ${score1} 分，${turn[1]}得 ${score2} 分`)
+    $(`.${round[0]}`).html(team0_sum)
+    $(`.${round[1]}`).html(team1_sum)
+    $(".hint").html(`${turn[0]}得 ${score0} 分，${turn[1]}得 ${score1} 分`)
+    if (score0 === 4 && team0_sum < team1_sum) {
+        // score 4 points and still behind
+        red_turn = !red_turn
+        $(".hint").append(`<br/>${turn[0]}可再出題一回合!!!`)
+    }
 
     $("#spinner").fadeToggle()
     $(this).html("下一局")
